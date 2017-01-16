@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- <openerp>
+    <data>
+        <record id="ir_cron_scheduler_demo_action" model="ir.cron">
+            <field name="name">Demo scheduler</field>
+            <field name="user_id" ref="base.user_root"/>
+            <field name="active">True</field>
+            <field name="interval_number">1</field>
+            <field name="interval_type">minutes</field>
+            <field name="numbercall">-1</field>
+            <field eval="True" name="doall"/>
+            <field eval="prod" name="model"/>
+            <field eval="'_newMethof'" name="function"/>
+            <field name="args">()</field>
+        </record>
+   </data>
+</openerp>
+ -->
+
+<odoo>
+        <record model="ir.cron" id="ir_cron_scheduler_demo_action">
+            <field name='name'>Demo scheduler</field>
+            <field name='interval_number'>1</field>
+            <field name='interval_type'>minutes</field>
+            <field name="numbercall">-1</field>
+            <field name="active">True</field>
+            <field name="model">prod</field>
+            <field name="function">_newMethof</field>
+            <field name="args">()</field>
+        </record>
+</odoo>

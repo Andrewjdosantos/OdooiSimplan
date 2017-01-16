@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+	<data>
+
+		<record id="action_prod_form" model="ir.actions.act_window">
+			<field name ="name">prod</field>
+			<field name="type">ir.actions.act_window</field>
+			<field name="res_model">prod</field>
+			<field name="view_type">form</field>
+			<field name="view_mode">tree,form,graph</field>
+			<field name="help" type="html">
+				<p class="oe_view_nocontent_create">
+					click to add new test
+				</p>
+				<p>
+					create new tester
+				</p>
+			</field>
+		</record>
+
+		<record id="action_BufferProfiles_form" model="ir.actions.act_window">
+			<field name ="name">bufferprofiles</field>
+			<field name="type">ir.actions.act_window</field>
+			<field name="res_model">bufferprofiles</field>
+			<field name="view_type">form</field>
+			<field name="view_mode">form,tree</field>
+			<field name="help" type="html">
+				<p class="oe_view_nocontent_create">
+					click to add new test
+				</p>
+				<p>
+					create new tester
+				</p>
+			</field>
+		</record>
+
+		<menuitem id = "Prod Data" name="Demand Driven MRP" action="action_prod_form" sequence="5"/>
+        <menuitem id="Buffer Profiles" name="Buffer Profiles" action="action_BufferProfiles_form"
+                  parent="Prod Data"/>
+        <menuitem id="Buffers" name="Buffers" action="action_prod_form"
+                  parent="Prod Data"/>
+
+<!-- colors="red:is_baseRed==True" -->
+		<record id="view_prod_tree" model="ir.ui.view">
+			<field name ="name">prod.tree</field>
+			<field name ="model">prod</field>
+			<field name="priority" eval="16"/>
+    		<field name="arch" type="xml">
+				<tree name = "Test Tree" colors="darkred:is_baseRed==True;green:is_green==True;red:is_safetyRed==True;blue:is_blue==True;yellow:is_yellow==True;">
+					<field name = "AvailableStock" string = "Available Stock"/>
+					<field name = "SuggestedOrderQuant" string = "Suggested Order Quantity"/>
+					<field name = "TOG" string = "Top of Green"/>
+					<field name = "SupplyOrders" string = "Supply Orders"/>
+					<field name = "Product" string = "Product Name"/>
+					<field name = "ProfileName" string = "Profile Name"/>
+					<field name = "QoH" string = "Quantity on Hand"/>
+ 					<field name = "SOD" string = "Sales Order Demand"/>
+					<field name = "ADU" string = "Average Daily Usage"/>
+ 					<field name = "LT" string = "Supply Lead Time"/>
+					<field name = "YellowZ" string = "Yellow Zone" />
+					<field name = "GreenZ" string = "Green Zone"/>
+					<field name = "BaseRedZ" string = "Base Red Zone"/>
+					<field name = "SafetyRedZ" string = "Safety Red Zone"/>
+					<field name = "LVF" string = "Lead Time Variability Factor"/>
+					<field name = "DVF" string = "Demand Variability Factor"/>
+					<field name = "is_baseRed" string = "In Base Red"/>
+					<field name = "is_green" string = "In Green Zone"/>
+					<field name = "is_yellow" string = "In Yellow Zone"/>
+					<field name = "is_safetyRed" string = "In Safety Red"/>
+					<field name = "is_blue" string = "In Blue Zone"/>
+				</tree>
+			</field>
+		</record>
+
+		<record id="view_prod_form" model="ir.ui.view">
+			<field name ="name">prod.form</field>
+			<field name ="model">prod</field>
+			<field eval = "16" name ="priority" />
+			<field name = "arch" type="xml">
+				<form string="test">
+					<sheet>
+						<notebook>
+							<page string="Manage test">
+								<group>
+									<field name = "AvailableStock" string = "Available Stock"/>
+									<field name = "SuggestedOrderQuant" string = "Suggested Order Quantity"/>
+									<field name = "TOG" string = "Top of Green"/>
+									<field name = "SupplyOrders" string = "Supply Orders"/>
+									<field name = "Product" string = "Product Name"/>
+									<field name = "ProfileName" string = "Profile Name"/>
+									<field name = "QoH" string = "Quantity on Hand"/>
+ 									<field name = "SOD" string = "Sales Order Demand"/>
+									<field name = "ADU" string = "Average Daily Usage"/>
+									<field name = "LT" string = "Supply Lead Time"/>
+ 									<field name = "YellowZ" string = "Yellow Zone" />
+									<field name = "GreenZ" string = "Green Zone"/>
+									<field name = "BaseRedZ" string = "Base Red Zone"/>
+									<field name = "SafetyRedZ" string = "Safety Red Zone"/>
+									<field name = "is_green" string = "In Green Zone"/>
+									<field name = "is_yellow" string = "In Yellow Zone"/>
+									<field name = "is_yellow" string = "In Yellow Zone"/>
+									<field name = "is_baseRed" string = "In Base Red"/>
+									<field name = "is_safetyRed" string = "In Safety Red"/>
+									<field name = "is_blue" string = "In Blue Zone"/>
+								</group>
+							</page>
+						</notebook>
+					</sheet>
+				</form>
+			</field>
+		</record>
+
+
+		<record id="view_BufferProf_tree" model="ir.ui.view">
+			<field name ="name">bufferprofiles.tree</field>
+			<field name ="model">bufferprofiles</field>
+			<field name="priority" eval="16"/>
+    		<field name="arch" type="xml">
+				<tree name = "Test Tree">
+					<field name = "name" string = "Profile Name"/>
+					<field name = "LVF" string = "Lead Time Variability Factor"/>
+					<field name = "DVF" string = "Demand Variability Factor"/>
+				</tree>
+			</field>
+		</record>
+
+		<record id="view_BufferProf_form" model="ir.ui.view">
+			<field name ="name">bufferprofiles.form</field>
+			<field name ="model">bufferprofiles</field>
+			<field eval = "16" name ="priority" />
+			<field name = "arch" type="xml">
+				<form string="test">
+					<sheet>
+						<notebook>
+							<page string="Manage test">
+								<group>
+									<field name = "name" string = "Profile Name"/>
+									<field name = "LVF" string = "Lead Time Variability Factor"/>
+									<field name = "DVF" string = "Demand Variability Factor"/>
+								</group>
+							</page>
+						</notebook>
+					</sheet>
+				</form>
+			</field>
+		</record>
+
+<!-- 		<record id="view_BufferProfiles_form" model="ir.ui.view">
+			<field name ="name">BufferProfiles.form</field>
+			<field name ="model">BufferProfiles</field>
+			<field eval = "16" name ="priority" />
+			<field name = "arch" type="xml">
+				<form string="test">
+					<sheet>
+						<notebook>
+							<page string="Manage test">
+								<group>
+									<field name = "ProfileName" string = "Profile Name"/>
+									<field name = "LVF" string = "Lead Time Variability Factor"/>
+									<field name = "DVF" string = "Demand Variability Factor"/>
+								</group>
+							</page>
+						</notebook>
+					</sheet>
+				</form>
+			</field>
+		</record>
+ -->
+<!-- 		<record model="ir.ui.view" id="prod_graph">
+   			<field name="name">prod.graph</field>
+			<field name="model">prod</field>
+			<field name="type">graph</field>
+			<field name="arch" type="xml">
+			         <graph string="Buffers" stacked="True">
+			         				<field name = "Product" string = "Product Name"/>
+									<field name = "POY" string = "Yellow Zone" type="measure"/>
+									<field name = "POG" string = "Green Zone" type="measure"/>
+									<field name = "POBR" string = "Base Red Zone" type="measure"/>
+									<field name = "POSR" string = "Safety Red Zone" type="measure"/>
+        			</graph>
+    		</field>
+		</record> -->
+	</data>
+</openerp>
