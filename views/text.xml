@@ -46,7 +46,9 @@
 			<field name ="model">prod</field>
 			<field name="priority" eval="16"/>
     		<field name="arch" type="xml">
-				<tree name = "Test Tree" colors="darkred:is_baseRed==True;green:is_green==True;red:is_safetyRed==True;blue:is_blue==True;yellow:is_yellow==True;">
+				<tree name = "Test Tree" colors="darkred:is_baseRed==True;green:is_green==True;red:is_safetyRed==True;blue:is_blue==True;gold:is_yellow==True;">
+					<field name = "colour" string = "Buffer Level"/>
+					<field name = "LT" string = "Lead Time"/>
 					<field name = "AvailableStock" string = "Available Stock"/>
 					<field name = "SuggestedOrderQuant" string = "Suggested Order Quantity"/>
 					<field name = "TOG" string = "Top of Green"/>
@@ -55,9 +57,13 @@
 					<field name = "ProfileName" string = "Profile Name"/>
 					<field name = "QoH" string = "Quantity on Hand"/>
  					<field name = "SOD" string = "Sales Order Demand"/>
+ 					<field name = "MOD" string = "Manufacturing Order Demand"/>
+ 					<field name = "TotalDemand" string = "TotalDemand"/>
 					<field name = "ADU" string = "Average Daily Usage"/>
  					<field name = "LT" string = "Supply Lead Time"/>
 					<field name = "YellowZ" string = "Yellow Zone" />
+					<field name = "LVF" string = "LVF"/>
+					<field name = "DVF" string = "DVF" />
 					<field name = "GreenZ" string = "Green Zone"/>
 					<field name = "BaseRedZ" string = "Base Red Zone"/>
 					<field name = "SafetyRedZ" string = "Safety Red Zone"/>
@@ -84,12 +90,17 @@
 								<group>
 									<field name = "AvailableStock" string = "Available Stock"/>
 									<field name = "SuggestedOrderQuant" string = "Suggested Order Quantity"/>
+									<field name = "LT" string = "Lead Time"/>
 									<field name = "TOG" string = "Top of Green"/>
 									<field name = "SupplyOrders" string = "Supply Orders"/>
 									<field name = "Product" string = "Product Name"/>
 									<field name = "ProfileName" string = "Profile Name"/>
+									<field name = "LVF" string = "LVF"/>
+									<field name = "DVF" string = "DVF" />
 									<field name = "QoH" string = "Quantity on Hand"/>
  									<field name = "SOD" string = "Sales Order Demand"/>
+ 									<field name = "MOD" string = "Manufacturing Order Demand"/>
+ 									<field name = "TotalDemand" string = "TotalDemand"/>
 									<field name = "ADU" string = "Average Daily Usage"/>
 									<field name = "LT" string = "Supply Lead Time"/>
  									<field name = "YellowZ" string = "Yellow Zone" />
@@ -97,7 +108,6 @@
 									<field name = "BaseRedZ" string = "Base Red Zone"/>
 									<field name = "SafetyRedZ" string = "Safety Red Zone"/>
 									<field name = "is_green" string = "In Green Zone"/>
-									<field name = "is_yellow" string = "In Yellow Zone"/>
 									<field name = "is_yellow" string = "In Yellow Zone"/>
 									<field name = "is_baseRed" string = "In Base Red"/>
 									<field name = "is_safetyRed" string = "In Safety Red"/>

@@ -24,13 +24,46 @@ class prod(models.Model):
 #            lst.append((journal.id, journal.name_template))
 #        return lst
 #    slections = ((1,1),(2,2),(3,3))
+    @api.onchange("ProfileName")
+    def _findFactors(self):
+        try:
+            for record in self:
+                _logger.debug("//////////////////////////////////////Finding LVF/DVF////////////////////////////")
+                _logger.debug(str(record.ProfileName))      
+                _id = re.sub("[^0-9]", "",str(record.ProfileName))
+                _logger.debug(_id)
+                _logger.debug("!!!!!!!BEFORE!!!!!!!!")
+                _logger.debug(self.Product)
+                recordLine = self.env["bufferprofiles"].search([('id', '=', _id)], limit=1)
+                _logger.debug("!!!!!!!AFTER!!!!!!!!")
+                _logger.debug(self.Product)
+                _LVF = recordLine.LVF
+                _DVF = recordLine.DVF
+                # _logger.debug(wh_qa_location)
+                # self.env.cr.execute("SELECT 'LVF' FROM bufferprofiles WHERE id = " + _id +";")
+                # _LVF = env.cr.fetchone()[0]+0
+                # _logger.debug("LVF!!!!!!!!!!")
+                # _logger.debug(_LVF)
+                _logger.debug('???? ' + str(_LVF))
+                self.LVF = _LVF
+                # self.write({'LVF':_LVF})
+                self.DVF = _DVF
+                # self.write({'DVF':_DVF})
+                # self.env.cr.execute("SELECT 'DVF' FROM bufferprofiles WHERE id = " + _id +";")
+                # _DVF = self.env.cr.fetchone()
+                # record.write({'DVF': _DVF})
+        except(DataError):
+            _logger.debug('No buffer profiles or new item created')
+
     Product = fields.Many2one('product.product')
-    ProfileName = fields.Many2one('bufferprofiles')
+    ProfileName = fields.Many2one('bufferprofiles',default=1)
     LVF = fields.Float('LVF', digits=(6,3), help='')
     DVF = fields.Float('DVF', digits=(6,3), help='')
     SupplyOrders = fields.Char('SupplyOrders', size = 80, help='')
     QoH = fields.Integer('QoH', size = 80, help='')
-    SOD = fields.Integer('SOD', size=80, help='')
+    SOD = fields.Float('SOD', size=80, help='',digits=(6,3),)
+    MOD = fields.Float('MOD', size=80, help='',digits=(6,3),)
+    TotalDemand = fields.Float('TotalDemand', size=80, help='',digits=(6,3),)
     ADU = fields.Float('ADU', digits=(6,3), help='')
     LT = fields.Float('LT', digits=(6,3), help='')
     YellowZ = fields.Float('YellowZ', digits=(6,3), help='')
@@ -49,6 +82,7 @@ class prod(models.Model):
     is_baseRed = fields.Boolean(default=False,store=True)
     is_safetyRed = fields.Boolean(default=False,store=True)
     is_blue = fields.Boolean(default=False,store=True)
+    colour = fields.Char(default='||||')
     # def newMethod(self):
     #     self.process_demo_scheduler_queue("cr","uid")
 #   
@@ -98,8 +132,18 @@ class prod(models.Model):
                 SOD = 0;
                 _logger.debug("No Sales Order Demand Foundfor id:"+_id)
             record.write({'SOD': SOD})
+            self.env.cr.execute("select sum(product_qty) from stock_move where product_id = "+_id+" and bom_line_id >0 and state = 'assigned' or state = 'confirmed' and bom_line_id>0;")
+            try:
+                MOD = self.env.cr.fetchone()[0]+0
+            except(TypeError):
+                MOD = 0;
+                _logger.debug("No Manufacturing Order Demand Foundfor id:"+_id)
+                _logger.debug("select sum(product_qty) from stock_move where product_id ="+_id+" and bom_line_id >0 and state = 'assigned';")
+            record.write({'MOD': MOD})
+            TotalDem = MOD + SOD
+            record.write({'TotalDemand':TotalDem})
 # Calculate Average Daily Usage
-            ADU = SOD/90 #REPLACE IN SETTINGS
+            ADU = TotalDem/90 #REPLACE IN SETTINGS
             record.write({'ADU': ADU})
 # Find Lead time,purchase lead time for purchases items and manufacturing for make items, the maximum
             self.env.cr.execute("SELECT sum(route_id) from stock_route_product where product_id =" + _id +";")
@@ -108,7 +152,6 @@ class prod(models.Model):
             except(TypeError):
                 _logger.debug("No Make or Buy found for id:"+_id)
                 LT =0
-
             if make_buy == 5:
                 self.env.cr.execute("SELECT produce_delay from product_template where id =" + _id +";")
                 _logger.debug("Found make Item")
